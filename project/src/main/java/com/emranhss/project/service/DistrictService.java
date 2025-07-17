@@ -20,6 +20,7 @@ public class DistrictService {
     }
 
     public List<District> getAllDistrict(){
+
         return districtRepo.findAll();
     }
 
@@ -33,22 +34,25 @@ public class DistrictService {
 
 //            Map PoliceStation to thier IDs only
             List<Integer> psIds = d.getPoliceStations().stream()
-                    .map(ps ->ps.getId()).toList();
+                    .map(ps ->ps.getId())
+                    .toList();
 
             dto.setPoliceStation(psIds);
             return dto;
         }).toList();
     }
 
-    public void getDistrictById(int id){
-        return districtRepo.findById().get();
+    public District getDistrictById(int id){
+        return districtRepo.findById(id).get();
     }
 
     public void deleteDistrictById(int id){
+
         districtRepo.deleteById(id);
     }
 
     public District getDistrictByName(String name){
+
         return districtRepo.findByName(name);
     }
 }
