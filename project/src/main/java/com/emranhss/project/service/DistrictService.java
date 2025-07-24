@@ -14,6 +14,8 @@ public class DistrictService {
     @Autowired
     private IDistrictRepo districtRepo;
 
+    
+
     public void save(District district){
 
         districtRepo.save(district);

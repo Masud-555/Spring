@@ -20,18 +20,22 @@ public class DistrictResponseDTO {
     }
 
     public String getName() {
+
         return name;
     }
 
     public void setName(String name) {
+
         this.name = name;
     }
 
     public List<Integer> getPoliceStation() {
+
         return policeStation;
     }
 
     public void setPoliceStation(List<Integer> policeStation) {
+
         this.policeStation = policeStation;
     }
 }
