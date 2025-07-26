@@ -2,6 +2,8 @@ package com.emranhss.project.service;
 
 import com.emranhss.project.entity.User;
 import com.emranhss.project.repoditory.IUserRepo;
+
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -94,7 +96,7 @@ public class UserService {
         try {
             emailService.sendSimpleEmail(user.getEmail(), subject, mailText);
         } catch (MessagingException e) {
-            throw new RuntimeException("Failed to send activation email", e);
+            throw new RuntimeException(e);
         }
     }
 
