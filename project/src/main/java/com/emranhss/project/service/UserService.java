@@ -1,5 +1,6 @@
 package com.emranhss.project.service;
 
+import com.emranhss.project.entity.JobSeeker;
 import com.emranhss.project.entity.User;
 import com.emranhss.project.repoditory.IUserRepo;
 
@@ -101,7 +102,7 @@ public class UserService {
     }
 
 
-
+    // for User folder
     public String saveImage(MultipartFile file, User user) {
 
         Path uploadPath = Paths.get(uploadDir + "/users");
@@ -126,4 +127,45 @@ public class UserService {
         return fileName;
 
     }
+
+    // for User folder
+    public String saveImageForJobSeeker(MultipartFile file, JobSeeker jobSeeker) {
+
+        Path uploadPath = Paths.get(uploadDir + "/jobSeeker");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectory(uploadPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String jobSeekerName = jobSeeker.getName();
+        String fileName = jobSeekerName.trim().replaceAll("\\s+", "_");
+
+        String savedFileName = fileName + "_" + UUID.randomUUID().toString();
+
+        try {
+            Path filePath = uploadPath.resolve(savedFileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return savedFileName;
+
+    }
+
+
+    public void registerJobSeeker(User user, MultipartFile imageFile, JobSeeker jobSeekerData) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            // Save image for both User and JobSeeker
+            String filename = saveImage(imageFile, user);
+            String jobSeekerPhoto = saveImageForJobSeeker(imageFile, jobSeekerData);
+            jobSeekerData.setPhoto(jobSeekerPhoto);
+            user.setPhoto(filename);
+        }
+    }
+
+
 }

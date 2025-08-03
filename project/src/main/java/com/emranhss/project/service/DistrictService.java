@@ -37,6 +37,7 @@ public class DistrictService {
 
 
     public List<District> getAllDistrict() {
+
         return districtRepo.findAll();
     }
 
@@ -60,14 +61,17 @@ public class DistrictService {
     }
 
     public District getDistrictById(int id) {
+
         return districtRepo.findById(id).get();
     }
 
     public void deleteDistrictById(int id) {
+
         districtRepo.deleteById(id);
     }
 
     public District getDistrictByName(String name) {
+
         return districtRepo.findByName(name);
     }
 }
