@@ -1,6 +1,7 @@
 package com.emranhss.project.service;
 
 import com.emranhss.project.entity.JobSeeker;
+import com.emranhss.project.entity.Role;
 import com.emranhss.project.entity.User;
 import com.emranhss.project.repoditory.IUserRepo;
 
@@ -40,16 +41,18 @@ public class UserService {
             user.setPhoto(filename);
         }
 
-
+        user.setRole(Role.JOBSEEKER);
         userRepo.save(user);
         sendActivationEmail(user);
     }
 
     public List<User> findAll() {
+
         return userRepo.findAll();
     }
 
     public User findById(int id) {
+
         return userRepo.findById(id).get();
     }
 
