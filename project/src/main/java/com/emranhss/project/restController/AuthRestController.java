@@ -4,7 +4,6 @@ import com.emranhss.project.dto.AuthenticationResponse;
 import com.emranhss.project.entity.User;
 import com.emranhss.project.repoditory.ITokenRepository;
 import com.emranhss.project.service.AuthService;
-import com.emranhss.project.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/user/")
-public class UserRestController {
+@RequestMapping("/auth/")
+public class AuthRestController {
 
     @Autowired
     private AuthService authService;
@@ -94,6 +93,7 @@ public class UserRestController {
 
         return ResponseEntity.ok("Logged out successfully.");
     }
+
 
 
 }
