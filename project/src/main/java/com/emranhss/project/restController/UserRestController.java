@@ -29,7 +29,7 @@ public class UserRestController {
     ITokenRepository tokenRepository;
 
 
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<Map<String, String>> saveUser(
             @RequestPart(value = "user") String userJson,
             @RequestParam(value = "photo") MultipartFile file
