@@ -194,11 +194,11 @@ public class AuthService {
         }
 
         // Encode password before saving User
+        // Save User FIRST and get persisted instance
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.CUSTOMER);
         user.setActive(false);
 
-        // Save User FIRST and get persisted instance
         User savedUser = userRepo.save(user);
 
         // Now, associate saved User with Customer and save Customer

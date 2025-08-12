@@ -1,7 +1,7 @@
 package com.emranhss.restuarent.entity;
 
 import jakarta.persistence.*;
-import org.apache.catalina.User;
+
 
 import java.util.Date;
 
