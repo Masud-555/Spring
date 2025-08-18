@@ -1,11 +1,9 @@
 package com.emranhss.restuarent.service;
 
 import com.emranhss.restuarent.dto.AuthenticationResponse;
-import com.emranhss.restuarent.entity.Customer;
-import com.emranhss.restuarent.entity.Role;
-import com.emranhss.restuarent.entity.Token;
-import com.emranhss.restuarent.entity.User;
+import com.emranhss.restuarent.entity.*;
 import com.emranhss.restuarent.jwt.JwtService;
+import com.emranhss.restuarent.repository.IEmployeeRepository;
 import com.emranhss.restuarent.repository.ITokenRepository;
 import com.emranhss.restuarent.repository.IUserRepo;
 
@@ -36,6 +34,7 @@ public class AuthService {
 
     @Autowired
     private IUserRepo userRepo;
+
     @Autowired
     private ITokenRepository tokenRepository;
 
@@ -49,12 +48,18 @@ public class AuthService {
     private JwtService jwtService;
 
     @Autowired
+    private IEmployeeRepository employeRepository;
+
+
+    @Autowired
     @Lazy
     private AuthenticationManager authenticationManager;
 
 
     @Value("src/main/resources/static/images")
     private String uploadDir;
+
+
 
 
 
@@ -213,6 +218,37 @@ public class AuthService {
         sendActivationEmail(savedUser);
     }
 
+//    Employee registration er kaj
+    public void registerEmployee(User user, MultipartFile imageFile, Employee employeeData) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            // Save image for both User and JobSeeker
+            String filename = saveImage(imageFile, user);
+            String empPhoto = saveImageForEmployee(imageFile, employeeData);
+            employeeData.setPhoto(empPhoto);
+            user.setPhoto(filename);
+        }
+
+        // Encode password before saving User
+        // Save User FIRST and get persisted instance
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.EMPLOYEE);
+        user.setActive(false);
+
+        User savedUser = userRepo.save(user);
+
+        // Now, associate saved User with Customer and save Customer
+        employeeData.setUser(savedUser);
+
+        employeRepository.save(employeeData);
+
+        // Now generate token and save Token associated with savedUser
+        String jwt = jwtService.generateToken(savedUser);
+        saveUserToken(jwt, savedUser);
+
+        // Send Activation Email
+        sendActivationEmail(savedUser);
+    }
+
 
 
     private void saveUserToken(String jwt, User user) {
@@ -291,4 +327,38 @@ public class AuthService {
         }
 
     }
+
+
+
+    // for User folder
+    public String saveImageForEmployee(MultipartFile file, Employee employee) {
+
+        Path uploadPath = Paths.get(uploadDir + "/employee");
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectory(uploadPath);
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        String customerName = employee.getName();
+        String fileName = customerName.trim().replaceAll("\\s+", "_");
+
+        String savedFileName = fileName + "_" + UUID.randomUUID().toString();
+
+        try {
+            Path filePath = uploadPath.resolve(savedFileName);
+            Files.copy(file.getInputStream(), filePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return savedFileName;
+
+    }
+
+
+
+
 }
