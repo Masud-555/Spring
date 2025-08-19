@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/customer/")
+@RequestMapping("/api/customer")
 public class CustomerRestController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class CustomerRestController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping("")
+    @PostMapping("/reg")
     public ResponseEntity<Map<String, String>> registerCustomer(
             @RequestPart(value = "user") String userJson,
             @RequestPart(value = "customer") String customerJson,
@@ -66,7 +66,7 @@ public class CustomerRestController {
     }
 
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public ResponseEntity<List<Customer>> getAllUsers() {
         List<Customer> customerList = customerService.getAll();
         return ResponseEntity.ok(customerList);

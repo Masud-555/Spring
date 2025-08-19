@@ -4,7 +4,8 @@ import com.emranhss.restuarent.entity.Employee;
 
 public class EmployeeDTO {
 
-    private Long Id;
+
+    private Long id;
     private String photo;
     private String name;
     private String salary;
@@ -13,12 +14,14 @@ public class EmployeeDTO {
     private String gender;
     private String location;
     private String nid;
+    private String designation;
+    private Long userId; // just reference user ID
 
-//    Constructor
-
+    // Constructors
+    public EmployeeDTO() {}
 
     public EmployeeDTO(Employee employee) {
-        Id = employee.getId();
+        this.id = employee.getId();
         this.photo = employee.getPhoto();
         this.name = employee.getName();
         this.salary = employee.getSalary();
@@ -27,14 +30,17 @@ public class EmployeeDTO {
         this.gender = employee.getGender();
         this.location = employee.getLocation();
         this.nid = employee.getNid();
+        this.designation = employee.getDesignation();
+
     }
 
+
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getPhoto() {
@@ -99,6 +105,22 @@ public class EmployeeDTO {
 
     public void setNid(String nid) {
         this.nid = nid;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
 
