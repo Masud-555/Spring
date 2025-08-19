@@ -42,12 +42,9 @@ public class SecurityConfig {
                                 "/api/customer/reg",
                                 "/images/**",
                                 "/api/user/active/**",
-                                "/api/education/**",
-                                "/api/skill/**",
                                 "/api/employee/").permitAll()
 
-                        .requestMatchers("/api/user/all", "/api/customer/profile", "/api/education/all", "/api/experience/all",
-                                "/api/experience/add", "/api/education/add", "/api/skill/add", "/api/skill/all").hasRole("CUSTOMER")
+                        .requestMatchers("/api/user/all", "/api/customer/profile").hasRole("CUSTOMER")
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
