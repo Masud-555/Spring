@@ -39,12 +39,13 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/user/login",
                                 "/auth/login",
-                                "/api/customer/reg",
+                                "/api/customer/",
                                 "/images/**",
                                 "/api/user/active/**",
-                                "/api/employee/").permitAll()
+                                "/api/employee/",
+                                "/api/user/all").permitAll()
 
-                        .requestMatchers("/api/user/all", "/api/customer/profile").hasRole("CUSTOMER")
+                        .requestMatchers("/api/customer/profile").hasRole("CUSTOMER")
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
