@@ -1,20 +1,12 @@
-package com.emranhss.restuarent.entity;
-
-import jakarta.persistence.*;
-
+package com.emranhss.restuarent.dto;
 
 import java.util.Date;
-import java.util.List;
 
-@Entity
-@Table(name = "customers")
-public class Customer {
+public class AdminDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
+    private long id;
     private String name;
-    @Column(unique = true, nullable = false)
     private String email;
     private String phone;
     private String address;
@@ -22,16 +14,12 @@ public class Customer {
     private Date dateOfBirth;
     private String photo;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BookTable> bookTable;
 
-    public Customer() {
+    public AdminDTO() {
     }
 
-    public Customer(Long id, String name, String email, String phone, String address, String gender, Date dateOfBirth, String photo, User user, List<BookTable> bookTable) {
+
+    public AdminDTO(long id, String name, String email, String phone, String address, String gender, Date dateOfBirth, String photo) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -40,15 +28,13 @@ public class Customer {
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.photo = photo;
-        this.user = user;
-        this.bookTable = bookTable;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -106,21 +92,5 @@ public class Customer {
 
     public void setPhoto(String photo) {
         this.photo = photo;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<BookTable> getBookTable() {
-        return bookTable;
-    }
-
-    public void setBookTable(List<BookTable> bookTable) {
-        this.bookTable = bookTable;
     }
 }

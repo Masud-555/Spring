@@ -40,9 +40,11 @@ public class SecurityConfig {
                                 "/api/user/login",
                                 "/auth/login",
                                 "/api/customer/",
+                                "/api/customer/all",
                                 "/images/**",
                                 "/api/user/active/**",
                                 "/api/employee/",
+                                "/api/employee/**",
                                 "/api/user/all").permitAll()
 
                         .requestMatchers("/api/customer/profile").hasRole("CUSTOMER")

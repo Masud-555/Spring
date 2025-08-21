@@ -2,19 +2,16 @@ package com.emranhss.restuarent.entity;
 
 import jakarta.persistence.*;
 
-
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "customers")
-public class Customer {
+@Table(name = "admins")
+public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     private String name;
-    @Column(unique = true, nullable = false)
     private String email;
     private String phone;
     private String address;
@@ -23,15 +20,13 @@ public class Customer {
     private String photo;
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BookTable> bookTable;
 
-    public Customer() {
+    public Admin() {
     }
 
-    public Customer(Long id, String name, String email, String phone, String address, String gender, Date dateOfBirth, String photo, User user, List<BookTable> bookTable) {
+    public Admin(long id, String name, String email, String phone, String address, String gender, Date dateOfBirth, String photo, User user) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -41,14 +36,13 @@ public class Customer {
         this.dateOfBirth = dateOfBirth;
         this.photo = photo;
         this.user = user;
-        this.bookTable = bookTable;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -114,13 +108,5 @@ public class Customer {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<BookTable> getBookTable() {
-        return bookTable;
-    }
-
-    public void setBookTable(List<BookTable> bookTable) {
-        this.bookTable = bookTable;
     }
 }

@@ -9,12 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long> {
+public interface CustomerRepository extends JpaRepository<Customer,Long> {
 
-    Optional<Customer> findByUserId(int userId);
+    Optional<Customer> findByUserId(Long id);
 
-    @Query("SELECT js FROM Customer js WHERE js.user.email = :email")
+    @Query("select c from Customer c where c.user.email = :email")
     Optional<Customer> findByUserEmail(@Param("email") String email);
-
-
 }

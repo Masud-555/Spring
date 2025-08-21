@@ -3,10 +3,10 @@ package com.emranhss.restuarent.restcontroller;
 
 import com.emranhss.restuarent.entity.Customer;
 import com.emranhss.restuarent.entity.User;
-import com.emranhss.restuarent.repository.CustomerRepository;
 import com.emranhss.restuarent.repository.IUserRepo;
 import com.emranhss.restuarent.service.AuthService;
 import com.emranhss.restuarent.service.CustomerService;
+import com.emranhss.restuarent.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,16 +28,17 @@ import java.util.Optional;
 public class CustomerRestController {
 
     @Autowired
-    private AuthService userService;
+    private UserService userService;
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerService customerService;
 
     @Autowired
     private IUserRepo userRepo;
 
     @Autowired
-    private CustomerService customerService;
+    private AuthService authService;
+
 
     @PostMapping("")
     public ResponseEntity<Map<String, String>> registerCustomer(
@@ -45,43 +46,45 @@ public class CustomerRestController {
             @RequestPart(value = "customer") String customerJson,
             @RequestParam(value = "photo") MultipartFile file
     ) throws JsonProcessingException {
+
         ObjectMapper objectMapper = new ObjectMapper();
         User user = objectMapper.readValue(userJson, User.class);
         Customer customer = objectMapper.readValue(customerJson, Customer.class);
-
         try {
-            userService.registerCustomer(user, file, customer);
+            authService.registerCustomer(user, file, customer);
             Map<String, String> response = new HashMap<>();
-            response.put("Message", "User Added Successfully ");
+
+            response.put("Message", "Customer registered successfully");
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
 
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("Message", "User Add Faild " + e);
+
+            errorResponse.put("Message", "Customer Registration Failed" + e);
+
             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
+
         }
 
 
     }
 
-
-    @GetMapping("/all")
+    @GetMapping("all")
     public ResponseEntity<List<Customer>> getAllUsers() {
-        List<Customer> customerList = customerService.getAll();
+        List<Customer> customerList = customerService.getAllCustomers();
         return ResponseEntity.ok(customerList);
 
     }
 
-
-
-    @GetMapping("/profile")
+    @GetMapping("profile")
     public ResponseEntity<?> getProfile(Authentication authentication) {
         System.out.println("Authenticated User: " + authentication.getName());
         System.out.println("Authorities: " + authentication.getAuthorities());
         String email = authentication.getName();
         Optional<User> user =userRepo.findByEmail(email);
-        Customer customer = customerService.getProfileByUserId(user.get().getId());
+        Customer customer = customerService.getProfileByUserId((long) user.get().getId());
         return ResponseEntity.ok(customer);
 
     }

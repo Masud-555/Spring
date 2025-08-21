@@ -1,13 +1,11 @@
 package com.emranhss.restuarent.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "bookTable")
 public class BookTable {
 
     @Id
@@ -21,10 +19,16 @@ public class BookTable {
     private String guest;
     private String massage;
 
+    @ManyToOne
+    @JoinColumn(name = "customerId", nullable = false)
+    private Customer customer;
+
+
     public BookTable() {
     }
 
-    public BookTable(Long id, String name, String email, String phone, Date date, int time, String guest, String massage) {
+
+    public BookTable(Long id, String name, String email, String phone, Date date, int time, String guest, String massage, Customer customer) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -33,6 +37,7 @@ public class BookTable {
         this.time = time;
         this.guest = guest;
         this.massage = massage;
+        this.customer = customer;
     }
 
     public Long getId() {
@@ -97,5 +102,13 @@ public class BookTable {
 
     public void setMassage(String massage) {
         this.massage = massage;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

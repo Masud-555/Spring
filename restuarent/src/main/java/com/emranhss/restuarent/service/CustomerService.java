@@ -11,27 +11,34 @@ import java.util.Optional;
 @Service
 public class CustomerService {
 
+
     @Autowired
     private CustomerRepository customerRepository;
 
-    public List<Customer> getAll() {
+    public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> getById(Long id) {
+    public Optional<Customer> getCustomerById(Long id) {
         return customerRepository.findById(id);
     }
 
-    public Customer save(Customer customer) {
+
+    public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
-    public void delete(Long id) {
+    public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
     }
 
-    public Customer getProfileByUserId(int userId) {
+    public Customer getProfileByUserId(Long userId) {
         return customerRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Job Seeker not found"));
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
     }
+
+
+
+
+
 }
