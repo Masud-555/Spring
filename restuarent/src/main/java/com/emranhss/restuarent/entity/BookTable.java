@@ -5,7 +5,11 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
+<<<<<<< Updated upstream
 @Table(name = "bookTable")
+=======
+@Table
+>>>>>>> Stashed changes
 public class BookTable {
 
     @Id
